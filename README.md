@@ -27,8 +27,8 @@ local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/T
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/Tienvn123tkvn/Test/main/ZierhubfaceManager.lua"))()
 ----------------------------------------------------------------------------------------------------------------------------------------------
 local Window = Fluent:CreateWindow({
-    Title = "ZINER HUB",
-    SubTitle = "Kai Wibu",
+    Title = "ST4R17 HUB",
+    SubTitle = "KaiTan",
     TabWidth = 160,
     Size = UDim2.fromOffset(500, 320),
     Acrylic = true,
