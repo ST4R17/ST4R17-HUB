@@ -1,1 +1,1 @@
-loadstring(Game:HttpGet("https://raw.githubusercontent.com/ST4R17/ST4R17-HUB/main/ST4R17.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/ST4R17/ST4R17-HUB/main/main.lua"))()
