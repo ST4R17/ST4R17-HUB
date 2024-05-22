@@ -1,0 +1,2 @@
+_G.KAITUN = true
+loadstring(game:HttpGet("https://raw.githubusercontent.com/KOBENFF/cz/main/README.md"))()
