@@ -1,0 +1,106 @@
+local player = game.Players.LocalPlayer
+local runService = game:GetService("RunService")
+
+local cooldown = 0
+local active = true
+local guiVisible = true -- Initially visible
+
+-- Function to create the GUI
+local function createGui()
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "TouchOfDeathGui"
+    screenGui.Parent = game:GetService("CoreGui")
+
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(0, 200, 0, 100)
+    frame.Position = UDim2.new(0.5, -100, 0.5, -50)
+    frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    frame.BackgroundTransparency = 0.3
+    frame.BorderSizePixel = 0
+    frame.Parent = screenGui
+
+    local uiCorner = Instance.new("UICorner")
+    uiCorner.CornerRadius = UDim.new(0, 12)
+    uiCorner.Parent = frame
+
+    local uiGradient = Instance.new("UIGradient")
+    uiGradient.Color = ColorSequence.new{
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 0, 0)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(35, 35, 35))
+    }
+    uiGradient.Parent = frame
+
+    local toggleButton = Instance.new("TextButton")
+    toggleButton.Size = UDim2.new(1, 0, 0.5, 0)
+    toggleButton.Position = UDim2.new(0, 0, 0.5, 0)
+    toggleButton.Text = "Disable Touch of Death"
+    toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    toggleButton.Font = Enum.Font.GothamBold
+    toggleButton.TextSize = 18
+    toggleButton.Parent = frame
+
+    local toggleButtonCorner = Instance.new("UICorner")
+    toggleButtonCorner.CornerRadius = UDim.new(0, 8)
+    toggleButtonCorner.Parent = toggleButton
+
+    local openCloseButton = Instance.new("TextButton")
+    openCloseButton.Size = UDim2.new(0, 100, 0, 50)
+    openCloseButton.Position = UDim2.new(0.05, 0, 0.05, 0)
+    openCloseButton.Text = "Cercesin Hub"
+    openCloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    openCloseButton.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
+    openCloseButton.Font = Enum.Font.GothamBold
+    openCloseButton.TextSize = 18
+    openCloseButton.Parent = screenGui
+
+    local openCloseButtonCorner = Instance.new("UICorner")
+    openCloseButtonCorner.CornerRadius = UDim.new(0, 8)
+    openCloseButtonCorner.Parent = openCloseButton
+
+    local function updateButtonText()
+        if active then
+            toggleButton.Text = "Disable Touch of Death"
+            toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+        else
+            toggleButton.Text = "Enable Touch of Death"
+            toggleButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+        end
+    end
+
+    local function toggleGuiVisibility()
+        guiVisible = not guiVisible
+        frame.Visible = guiVisible
+    end
+
+    toggleButton.MouseButton1Click:Connect(function()
+        active = not active
+        updateButtonText()
+    end)
+
+    openCloseButton.MouseButton1Click:Connect(function()
+        toggleGuiVisibility()
+    end)
+
+    updateButtonText()
+end
+
+-- Function for touch of death
+local function touchOfDeath()
+    local args = {
+        [1] = "Punch",
+        [2] = {
+            ["SuperPunch"] = true
+        }
+    }
+    game:GetService("ReplicatedStorage").RemoteEvents.VampireEvent:FireServer(unpack(args))
+end
+
+runService.Heartbeat:Connect(function()
+    if active then
+        touchOfDeath()
+        wait(cooldown)
+    end
+end)
+
+createGui()
